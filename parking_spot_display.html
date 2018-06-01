@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parking Lot Status</title>
+    <script src='jquery-3.3.1.min.js'></script>
+  </head>
+  <body>
+    <meta http-equiv="refresh", content="5">
+    <div id="error"></div>
+   <canvas id='mycanvas' width = '1000' height = '1000'>
+    This text will only appear if HMTL5 is not supported
+  </canvas>
+    <script>
+      //sensor_values will take the form: sensor_values = {'sensor1' : 0, 'sensor2' : 0, 'sensor3' : 0}
+      function updateParkingSpot(sensor_values)
+      {
+        
+        var p_spots = {'sensor1' : [410, 40], 'sensor2' : [620, 40], 'sensor3' : [515, 450]};
+        var colorArray = {0 : 'yellowgreen', 1 : 'crimson'}; 
+        var canvas = document.getElementById("mycanvas");
+        var context = canvas.getContext('2d');
+        console.log(typeof(sensor_values));
+        console.log(sensor_values);
+
+        //var sensor='sensor1';
+        //console.log(sensor_values[sensor]+","+ sensor + "," + p_spots[sensor]);
+        for(sensor in p_spots)
+        {
+          //console.log(colorArray[String(sensor_values[sensor])]);
+          console.log(sensor_values[sensor]+","+ sensor);
+          var color = colorArray[sensor_values[sensor]];
+          context.fillStyle = color;
+          context.fillRect(p_spots[sensor][0], p_spots[sensor][1], 200, 400);
+        }
+
+      }
+
+       function getSensorData() {
+        $.ajax({
+          url: 'read_sensor_data.php',
+          // if the AJAX call is successful, put the response into #data
+          success: function (result) {
+            //var sensor_data = result;
+            var sensor_data = $.parseJSON(result);
+            updateParkingSpot(sensor_data);
+          },
+          // if the AJAX call fails, put the error message into #error
+          error: function (xhr, status, error) {
+            $('#error').text('An error occurred: ' + error);
+          }
+        });
+      }
+     
+      getSensorData();
+      //document.write(current_sensor_data);
+      //window.onload = updateParkingSpot(current_sensor_data);
+     
+     
+
+
+      /*context.font = 'bold 40px Arial';
+      context.textBaseline = 'middle';
+      context.fillStyle = 'black';
+      context.strokeText('#3', 725, 650);
+      context.fillText('#3', 725, 650);*/
+
+
+    </script>
+  </body>
+</html>
