@@ -5,27 +5,33 @@
 <body>
 
 <?php
-function formatJSON($sensor_data)
+function formatJSON($sensor1, $sensor2)
 {
 	$data = array();
-	$data["sensor1"] = $sensor_data[0];
-	$data["sensor2"] = $sensor_data[1];
+	$data['sensor1'] = $sensor1;
+	$data['sensor2'] = $sensor2;
 	//$data["sensor3"] = 0;
-
-	return $data
+	$formattedData = json_encode($data);
+	return $formattedData;
 }
 
 function writeSignal($signal)
 {
-	$f = fopen("sensor.json", 'w') or die("Failed to create file");
-	fwrite($f, $signal) or die("Could not write to file");
+	$f = fopen('sensor.json', 'w') or die('Failed to create file');
+	fwrite($f, $signal) or die('Could not write to file');
 	fclose($f);
 }
 
-$posted_data = $_POST['sensor_status'];
-$json_data = formatJSON($posted_data);
+/*$posted_data = $_POST['sensor1'];
+$post_data2 = $_POST['sensor2'];
+$post_array = array($posted_data, $post_data2);
+$f2 = fopen('text.txt', 'w');
+fwrite($f2, $post_array);
+fclose($f2);*/
+
+$json_data = formatJSON($_POST['sensor1'], $_POST['sensor2']);
 writeSignal($json_data);
-echo "Signal data written successfully";
+//echo "Signal data written successfully";
 
 
 
