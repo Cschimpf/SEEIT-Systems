@@ -7,7 +7,7 @@
   <body>
     <meta http-equiv="refresh", content="2">
     <div id="error"></div>
-   <canvas id='mycanvas' width = '1000' height = '1000'>
+   <canvas id='mycanvas' width = '1200' height = '1000'>
     This text will only appear if HMTL5 is not supported
   </canvas>
     <script>
@@ -15,22 +15,38 @@
       function updateParkingSpot(sensor_values)
       {
         
-        var p_spots = {'sensor1' : [410, 40], 'sensor2' : [620, 40]} //, 'sensor3' : [515, 450]};
+        var p_spots = {'sensor1' : [410, 80], 'sensor2' : [620, 80]} //, 'sensor3' : [515, 450]};
         var colorArray = {0 : 'yellowgreen', 1 : 'crimson'}; 
         var canvas = document.getElementById("mycanvas");
         var context = canvas.getContext('2d');
-        console.log(typeof(sensor_values));
-        console.log(sensor_values);
+        //plot text
+        context.font = 'bold 50px Arial';
+        context.textBaseline = 'middle';
+        context.fillText('Parking Lot', 370, 40);
+        context.font = 'bold 20px Arial';
+        context.fillText('Available', 1030, 210);
+        context.fillText('Unavailable', 1030, 240);
+        context.fillText('Offline', 1030, 270);
+        //unused parking spots
+        context.fillRect(200, 80, 200, 350);
+        context.fillRect(200, 440, 200, 350);
+        context.fillRect(410, 440, 200, 350);
+        context.fillRect(620, 440, 200, 350);
+        //legend blocks
+        context.fillRect(1000, 260, 20, 20);
+        context.fillStyle = 'yellowgreen';
+        context.fillRect(1000, 200, 20, 20);
+        context.fillStyle = 'crimson';
+        context.fillRect(1000, 230, 20, 20);
+        
 
-        //var sensor='sensor1';
-        //console.log(sensor_values[sensor]+","+ sensor + "," + p_spots[sensor]);
         for(sensor in p_spots)
         {
           
           console.log(sensor_values[sensor]+","+ sensor);
           var color = colorArray[sensor_values[sensor]];
           context.fillStyle = color;
-          context.fillRect(p_spots[sensor][0], p_spots[sensor][1], 200, 400);
+          context.fillRect(p_spots[sensor][0], p_spots[sensor][1], 200, 350);
         }
 
       }
