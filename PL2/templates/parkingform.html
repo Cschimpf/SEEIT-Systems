@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1> Generate Parking Lot </h1>
+<form action="" method="post">
+	{{ form.hidden_tag() }}
+	<p>
+		{{ form.parkingrows.label }} <br>
+		{{ form.parkingrows(size=10) }}
+	</p>
+	<p>
+		{{ form.parkingcols.label }} <br>
+		{{ form.parkingcols(size=10) }}
+	</p>
+
+	<p> {{ form.submitLot() }} </p>
+</form>
+
+{% endblock %}
+
